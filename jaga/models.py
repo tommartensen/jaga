@@ -1,17 +1,15 @@
 from jaga.api import SegmentsApi
-from jaga.utils import ElapsedTimeHelper
+from jaga.utils import ElapsedTimeHelper, build_href
 
 
 class Segment:
-    api_response = {}
-
     def __init__(self, segment_id):
-        self.api_response = SegmentsApi().get_by_id(segment_id)
-        self.name = self.api_response["name"]
-        self.kom_time = ElapsedTimeHelper.from_string(self.api_response["xoms"]["kom"])
-        self.length = self.api_response["distance"]
-        self.average_gradient = self.api_response["average_grade"]
-        self.href = self._build_href(self.api_response["xoms"]["destination"]["href"])
+        api_response = SegmentsApi().get_by_id(segment_id)
+        self.name = api_response["name"]
+        self.kom_time = ElapsedTimeHelper.from_string(api_response["xoms"]["kom"])
+        self.length = api_response["distance"]
+        self.average_gradient = api_response["average_grade"]
+        self.href = build_href(api_response["xoms"]["destination"]["href"])
 
     @property
     def length_in_km(self):
@@ -25,9 +23,6 @@ class Segment:
     @property
     def kom_speed(self):
         return self.length_in_km / self.kom_time.elapsed_hours
-
-    def _build_href(self, href):
-        return href.replace("strava://", "https://www.strava.com/")
 
     def as_string(self):
         return {

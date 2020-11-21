@@ -6,6 +6,10 @@ TIME_FORMAT_HRS_MIN_SEC = "%H:%M:%S"
 TIME_FORMAT_MIN_SEC = "%M:%S"
 
 
+def build_href(href):
+    return href.replace("strava://", "https://www.strava.com/")
+
+
 def _remove_leading_zeroes(string):
     return string.lstrip("0")
 
