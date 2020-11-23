@@ -22,7 +22,7 @@ class ElapsedTimeHelper:
     def __init__(self, time_obj):
         self.container = time_obj
 
-    def as_string(self):
+    def __repr__(self):
         time_string = time.strftime(TIME_FORMAT_MIN_SEC, self.container)
         formatted_time_string = _remove_leading_zeroes(time_string)
         return formatted_time_string
@@ -43,7 +43,7 @@ class ElapsedTimeHelper:
     @classmethod
     def build_pace_string(cls, seconds):
         time_struct = cls.from_seconds(seconds)
-        return time_struct.as_string()
+        return time_struct
 
     @property
     def elapsed_seconds(self):

@@ -1,10 +1,10 @@
-from jaga.api import SegmentsApi
+from jaga.strava_proxy import SegmentsProxy
 from jaga.utils import ElapsedTimeHelper, build_href
 
 
 class Segment:
     def __init__(self, segment_id):
-        api_response = SegmentsApi().get_by_id(segment_id)
+        api_response = SegmentsProxy().get_by_id(segment_id)
         self.name = api_response["name"]
         self.kom_time = ElapsedTimeHelper.from_string(api_response["xoms"]["kom"])
         self.length = api_response["distance"]
@@ -24,13 +24,13 @@ class Segment:
     def kom_speed(self):
         return self.length_in_km / self.kom_time.elapsed_hours
 
-    def as_string(self):
-        return {
-            "name": self.name,
-            "length": self.length_in_km,
-            "kom_time": self.kom_time.as_string(),
-            "kom_pace": self.kom_pace,
-            "kom_speed": self.kom_speed,
-            "average_gradient": self.average_gradient,
-            "link": self.href,
-        }
+    def __repr__(self):
+        return f"""
+Name: {self.name}
+Length: {self.length_in_km:.3f}km
+KOM Time: {self.kom_time}
+KOM Pace: {self.kom_pace} min/km
+KOM Speed: {self.kom_speed:.2f} km/h
+Avg Gradient: {self.average_gradient}%
+Link: {self.href}
+"""

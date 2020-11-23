@@ -3,7 +3,7 @@ import requests
 from jaga import config
 
 
-class StravaApi:
+class StravaProxy:
     @classmethod
     def get(cls, path):
         headers = {"Authorization": f"Bearer {config.ACCESS_TOKEN}"}
@@ -11,7 +11,7 @@ class StravaApi:
         return requests.get(url, headers=headers).json()
 
 
-class SegmentsApi:
+class SegmentsProxy:
     def get_by_id(self, segment_id):
         return StravaApi.get(f"segments/{segment_id}")
 
