@@ -1,0 +1,21 @@
+syntax = "proto3";
+
+option go_package = "api/v1";
+
+package v1;
+
+message SegmentRequest {
+    string ID = 1;
+}
+
+message SegmentResponse {
+    string Name = 1;
+    float Length = 2;
+    float Time = 3;
+    float Gradient = 4;
+    string Link = 5;
+}
+
+service Segment {
+    rpc Get(SegmentRequest) returns (SegmentResponse);
+}
