@@ -14,9 +14,6 @@ defaults:
   run:
     working-directory: go/src/github.com/tommartensen/jaga
 
-env:
-  GOPATH: go/src/github.com/tommartensen/jaga
-
 jobs:
   build-cli:
     name: Build CLI
@@ -32,6 +29,12 @@ jobs:
         uses: actions/setup-go@v3
         with:
           go-version: 1.18
+      - name: Setup env
+        run: |
+          GOPATH="${{ github.workspace }}/go"
+          echo GOPATH="${GOPATH}" >> "$GITHUB_ENV"
+          PATH="${PATH}:${GOPATH}/bin"
+          echo PATH="${PATH}" >> "$GITHUB_ENV"
       - name: Generate proto gRPC code
         run: |
           go env
