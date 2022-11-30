@@ -37,11 +37,10 @@ jobs:
           echo PATH="${PATH}" >> "$GITHUB_ENV"
       - name: Generate proto gRPC code
         run: |
-          go env
           make proto-install proto-generate
       - name: Build CLI
         run: |
           make build-cli
       - name: Test CLI
         run: |
-          ${{ github.workspace }}/build/jagactl --version
+          ./build/jagactl --version
