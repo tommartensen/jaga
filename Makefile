@@ -1,11 +1,25 @@
 #########
 # Proto #
 #########
+PROTOC_VERSION=3.20.3
 PROTO_SRC_DIR="proto"
 PROTO_DEST_DIR="generated"
 
+# Support different OS to diff local and CI
+ifeq ($(shell uname -s),Linux)
+PROTOC_URL = https://github.com/protocolbuffers/protobuf/releases/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-linux-x86_64.zip
+endif
+ifeq ($(shell uname -s),Darwin)
+PROTOC_URL = https://github.com/protocolbuffers/protobuf/releases/download/v$(PROTOC_VERSION)/protoc-$(PROTOC_VERSION)-osx-x86_64.zip
+endif
+
 .PHONY: proto-install
 proto-install:
+	@echo "Install protoc $(PROTOC_VERSION)"
+	@mkdir -p $(GOPATH)/bin
+	@curl $(PROTOC_URL) -sLo /tmp/protoc.zip
+	@unzip -o -d /tmp /tmp/protoc.zip bin/protoc
+	install /tmp/bin/protoc $(GOPATH)/bin/protoc
 	go install google.golang.org/protobuf/cmd/protoc-gen-go@v1.28
 	go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@v1.2
 
