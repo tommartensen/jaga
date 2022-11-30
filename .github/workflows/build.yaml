@@ -14,6 +14,9 @@ defaults:
   run:
     working-directory: go/src/github.com/tommartensen/jaga
 
+env:
+  GOPATH: go/src/github.com/tommartensen/jaga
+
 jobs:
   build-cli:
     name: Build CLI
