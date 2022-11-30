@@ -20,10 +20,12 @@ jobs:
         with:
           ref: ${{ github.event.pull_request.head.sha }} # TODO: support branch/master
           fetch-depth: 0
+      - name: Generate proto gRPC code
+        run: |
+          make proto-install proto-generate
       - name: Build CLI
         run: |
-          make cli
-
+          make build-cli
       - name: Test CLI
         run: |
           ${{ github.workspace }}/build/jagactl --version
