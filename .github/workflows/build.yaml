@@ -44,3 +44,6 @@ jobs:
       - name: Test CLI
         run: |
           ./build/jagactl --version
+      - name: Build server
+        run: |
+          make build-server
